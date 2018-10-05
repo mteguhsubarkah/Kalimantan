@@ -1,0 +1,95 @@
+double P = 3.0209;
+double I = 0.0000293;
+double D = 0.2353;
+  
+
+int LPWM=12;
+int RPWM=5;
+int RPWM1 = 3;
+int LPWM1 = 9;
+int RPWM2=2;
+int LPWM2=4;
+int RPWM3 = 10;
+int LPWM3 = 12;
+int L_EN=8;
+int R_EN=7;
+
+byte pwm;
+byte pwm1;
+byte pwm2;
+byte pwm3;
+
+double Buff; // posisi baru
+double Last = 0; // posisi lama
+double  PTerm;
+double ITerm;
+double DTerm;
+double PIDTerm;
+double Ts=1;
+
+double cepat = 0;
+double position_out = 0 ;
+double position_in = 500;
+double messi;
+double Error; // perbedaan feedback dengan input
+double Sum = 0; // hasil integral error
+void loop() {
+double position_out_1  = 0;
+  double position_out = analogRead(A1);
+// Perhitungan PID
+Error = position_in - position_out;
+Buff = position_out; // untuk mencari derivatif
+Sum = Sum + Error; // hasil integral dari error
+PTerm = Error*P; // Proporsional
+//ITerm = Sum*I*Ts; // Integral
+DTerm = D*(Last - Buff)/Ts; // Derivatif
+PIDTerm = PTerm + DTerm; // total PID
+
+if (PIDTerm >= 255)
+PIDTerm = 255;
+if (PIDTerm <= -255)
+PIDTerm = -255;
+
+cepat = PIDTerm; // Hasil PID dijadikan data kecepatan
+
+
+if (pwm > 255){
+  pwm = 255;
+}
+else if (pwm <-255){
+  pwm = -255;
+}
+
+if (pwm2 > 255){
+  pwm2 = 255;
+}
+else if (pwm <-255){
+  pwm2 = -255;
+}
+
+
+if (pwm3 > 255){
+  pwm3 = 255;
+}
+else if (pwm3 <-255){
+  pwm3 = -255;
+}
+
+// Jika nilai kecepatan (-), stir berputar ke kanan
+if (cepat < 0)
+{
+// putar kanan
+int reversePWM = -cepat;
+analogWrite(11, 0);
+analogWrite(12, reversePWM);
+}
+// Jika nilai kecepatan (+), stir berputar ke kanan
+else if (cepat >= 0)
+{
+// putar kiri
+int forwardPWM = cepat;
+analogWrite(11, forwardPWM);
+analogWrite(12, 0);
+}
+Last = position_out; // untuk mencari derivatif
+delay(Ts*10);
