@@ -1,5 +1,14 @@
 import time
 import paho.mqtt.client as paho
+import random
+import math
+
+import matplotlib
+from pylab import plot, legend, subplot, grid, xlabel, ylabel, show, title
+
+from pyneurgen.neuralnet import NeuralNet
+from pyneurgen.nodes import BiasNode, Connection
+
 broker="123.45.0.10"
 port = 1883
 WindSpeed = ""
@@ -46,7 +55,6 @@ while True:
 
 	client.loop_start()
 	client.publish("NN_active","1")
-	client.publish("MainControl","Active")
 	client.publish("spc_speed1","1300")
 	client.subscribe("WindSpeed")
 	client.subscribe("WindDirection")
