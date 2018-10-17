@@ -1,3 +1,9 @@
+/*
+1. Mukhtar Amin 
+2. Mochamad Teguh Subarkah
+*/
+
+
 //Wiring Guide
 //Using Arduino Mega 2560
 //LCD 20x4 I2C: SDA -> PIN 20; SCL -> PIN 21; 
