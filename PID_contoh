@@ -20,6 +20,7 @@ byte pwm1;
 byte pwm2;
 byte pwm3;
 
+//Variabel PID
 double Buff; // posisi baru
 double Last = 0; // posisi lama
 double  PTerm;
