@@ -1,8 +1,9 @@
+// Koefisien PID
 double P = 3.0209;
 double I = 0.0000293;
 double D = 0.2353;
   
-
+//Define PWM biasa
 int LPWM=12;
 int RPWM=5;
 int RPWM1 = 3;
@@ -25,17 +26,26 @@ double  PTerm;
 double ITerm;
 double DTerm;
 double PIDTerm;
-double Ts=1;
+double Ts=1;// Time Sampling
 
 double cepat = 0;
 double position_out = 0 ;
-double position_in = 500;
+double position_in ;
 double messi;
 double Error; // perbedaan feedback dengan input
 double Sum = 0; // hasil integral error
+
+
+
+// Program Utama
 void loop() {
-double position_out_1  = 0;
-  double position_out = analogRead(A1);
+
+// Set point
+position_in = 500;
+
+// Pembacaan Sensor Posisi
+double position_out = analogRead(A1);
+
 // Perhitungan PID
 Error = position_in - position_out;
 Buff = position_out; // untuk mencari derivatif
@@ -53,27 +63,6 @@ PIDTerm = -255;
 cepat = PIDTerm; // Hasil PID dijadikan data kecepatan
 
 
-if (pwm > 255){
-  pwm = 255;
-}
-else if (pwm <-255){
-  pwm = -255;
-}
-
-if (pwm2 > 255){
-  pwm2 = 255;
-}
-else if (pwm <-255){
-  pwm2 = -255;
-}
-
-
-if (pwm3 > 255){
-  pwm3 = 255;
-}
-else if (pwm3 <-255){
-  pwm3 = -255;
-}
 
 // Jika nilai kecepatan (-), stir berputar ke kanan
 if (cepat < 0)
